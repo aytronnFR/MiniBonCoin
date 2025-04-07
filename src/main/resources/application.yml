@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: "demo"
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: "jdbc:${POSTGRES_URL}/${POSTGRES_DB}"
+    username: "${POSTGRES_USER}"
+    password: "${POSTGRES_PASS}"
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
