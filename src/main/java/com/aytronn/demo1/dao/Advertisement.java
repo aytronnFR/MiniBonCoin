@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.time.Instant;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,4 +43,8 @@ public class Advertisement {
   @ManyToOne
   @JoinColumn(name = "city_id")
   private City city;
+
+  private Instant createdAt;
+
+  private double price;
 }

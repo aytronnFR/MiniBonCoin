@@ -1,10 +1,14 @@
 package com.aytronn.demo1.controller;
 
 import com.aytronn.demo1.dao.Advertisement;
+import com.aytronn.demo1.dao.QAdvertisement;
 import com.aytronn.demo1.dto.AdvertisementInput;
 import com.aytronn.demo1.dto.AdvertisementOutput;
 import com.aytronn.demo1.service.AdvertisementService;
-import java.util.List;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import java.time.Instant;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,27 +33,49 @@ public class AdvertisementController {
   }
 
   @GetMapping
-  public List<Advertisement> getAllAdvertisements(
+  public Page<Advertisement> getAllAdvertisements(
       @RequestParam(required = false) String categoryId,
       @RequestParam(required = false) String cityName,
-      @RequestParam(required = false) String titleContain
+      @RequestParam(required = false) String titleContain,
+      @RequestParam(required = false) double minPrice,
+      @RequestParam(required = false) double maxPrice,
+      @RequestParam(required = false) Instant minCreatedAt,
+      @RequestParam(required = false) Instant maxCreatedAt,
+      Pageable pageable
   ) {
+    QAdvertisement qAdvertisement = QAdvertisement.advertisement;
+    BooleanExpression predicate = qAdvertisement.isNotNull();
+
     if (categoryId != null) {
-      return advertisementService.getAdvertisementByCategory(categoryId);
-    } else if (cityName != null) {
-      return advertisementService.getAdvertisementByCity(cityName);
-    } else if (titleContain != null) {
-      return advertisementService.getAdvertisementByTitleContain(titleContain);
-    } else {
-      return advertisementService.getAllAdvertisement();
+      predicate = predicate.and(qAdvertisement.category.id.eq(categoryId));
     }
+    if (cityName != null) {
+      predicate = predicate.and(qAdvertisement.city.name.eq(cityName));
+    }
+    if (titleContain != null) {
+      predicate = predicate.and(qAdvertisement.title.containsIgnoreCase(titleContain));
+    }
+    if (minPrice > 0) {
+      predicate = predicate.and(qAdvertisement.price.goe(minPrice));
+    }
+    if (maxPrice > 0) {
+      predicate = predicate.and(qAdvertisement.price.loe(maxPrice));
+    }
+    if (minCreatedAt != null) {
+      predicate = predicate.and(qAdvertisement.createdAt.after(minCreatedAt));
+    }
+    if (maxCreatedAt != null) {
+      predicate = predicate.and(qAdvertisement.createdAt.before(maxCreatedAt));
+    }
+
+    return advertisementService.getAllAdvertisement(pageable, predicate);
+
   }
 
   @PostMapping
   public Advertisement createAdvertisement(@RequestBody AdvertisementInput input) {
     return advertisementService.createAdvertisement(input);
   }
-
 
 
   @GetMapping("/{id}")

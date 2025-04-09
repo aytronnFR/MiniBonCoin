@@ -6,14 +6,19 @@ import com.aytronn.demo1.dao.Category;
 import com.aytronn.demo1.dao.City;
 import com.aytronn.demo1.dto.AdvertisementInput;
 import com.aytronn.demo1.dto.AdvertisementOutput;
+import com.aytronn.demo1.exception.ApiException;
 import com.aytronn.demo1.mapper.AdvertisementMapper;
 import com.aytronn.demo1.repository.AdvertisementImageRepository;
 import com.aytronn.demo1.repository.AdvertisementRepository;
 import com.aytronn.demo1.repository.CategoryRepository;
 import com.aytronn.demo1.repository.CityRepository;
+import com.querydsl.core.types.Predicate;
 import java.io.IOException;
-import java.util.List;
+import java.time.Instant;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +42,10 @@ public class AdvertisementService {
   }
 
   public Advertisement createAdvertisement(AdvertisementInput input) {
-    Category category = categoryRepository.findById(input.categoryId()).orElseThrow();
+    Category category = categoryRepository.findById(input.categoryId()).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Category not found"
+    ));
 
     Optional<City> optionalCity = cityRepository.findByName(input.cityName());
 
@@ -48,6 +56,7 @@ public class AdvertisementService {
         .description(input.description())
         .category(category)
         .city(city)
+        .createdAt(Instant.now())
         .build();
 
     return advertisementRepository.save(newAdvertisement);
@@ -61,20 +70,29 @@ public class AdvertisementService {
     return optionalCity.get();
   }
 
-  public List<Advertisement> getAllAdvertisement() {
-    return advertisementRepository.findAll();
+  public Page<Advertisement> getAllAdvertisement(Pageable pageable, Predicate predicate) {
+    return advertisementRepository.findAll(predicate, pageable);
   }
 
   public AdvertisementOutput getAdvertisementById(String id) {
-    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow();
+    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Advertisement not found"
+    ));
 
     return advertisementMapper.toAdvertisementOutput(advertisement);
   }
 
   public Advertisement updateAdvertisement(String id, AdvertisementInput input) {
-    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow();
+    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Advertisement not found"
+    ));
 
-    Category category = categoryRepository.findById(input.categoryId()).orElseThrow();
+    Category category = categoryRepository.findById(input.categoryId()).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Category not found"
+    ));
     Optional<City> optionalCity = cityRepository.findByName(input.cityName());
 
     City city = createOrgetCity(input, optionalCity);
@@ -88,25 +106,19 @@ public class AdvertisementService {
   }
 
   public void deleteAdvertisement(String id) {
-    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow();
+    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Advertisement not found"
+    ));
 
     advertisementRepository.delete(advertisement);
   }
 
-  public List<Advertisement> getAdvertisementByCategory(String categoryName) {
-    return advertisementRepository.findByCategory_Name(categoryName);
-  }
-
-  public List<Advertisement> getAdvertisementByCity(String cityName) {
-    return advertisementRepository.findByCity_Name(cityName);
-  }
-
-  public List<Advertisement> getAdvertisementByTitleContain(String titleContain) {
-    return advertisementRepository.findByTitleContaining(titleContain);
-  }
-
   public Advertisement addPhotoToAdvertisement(String id, MultipartFile image) {
-    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow();
+    Advertisement advertisement = advertisementRepository.findById(id).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Advertisement not found"
+    ));
 
     try {
       AdvertisementImage newAdvertisementImage = AdvertisementImage.builder()
@@ -119,6 +131,9 @@ public class AdvertisementService {
       throw new RuntimeException();
     }
 
-    return advertisementRepository.findById(id).orElseThrow();
+    return advertisementRepository.findById(id).orElseThrow(() -> new ApiException(
+        HttpStatus.NOT_FOUND,
+        "Advertisement not found"
+    ));
   }
 }
