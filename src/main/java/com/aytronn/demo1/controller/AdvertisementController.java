@@ -2,6 +2,7 @@ package com.aytronn.demo1.controller;
 
 import com.aytronn.demo1.dao.Advertisement;
 import com.aytronn.demo1.dto.AdvertisementInput;
+import com.aytronn.demo1.dto.AdvertisementOutput;
 import com.aytronn.demo1.service.AdvertisementService;
 import java.util.List;
 import org.springframework.http.MediaType;
@@ -28,9 +29,17 @@ public class AdvertisementController {
   }
 
   @GetMapping
-  public List<Advertisement> getAllAdvertisements(@RequestParam(required = false) String categoryId) {
+  public List<Advertisement> getAllAdvertisements(
+      @RequestParam(required = false) String categoryId,
+      @RequestParam(required = false) String cityName,
+      @RequestParam(required = false) String titleContain
+  ) {
     if (categoryId != null) {
       return advertisementService.getAdvertisementByCategory(categoryId);
+    } else if (cityName != null) {
+      return advertisementService.getAdvertisementByCity(cityName);
+    } else if (titleContain != null) {
+      return advertisementService.getAdvertisementByTitleContain(titleContain);
     } else {
       return advertisementService.getAllAdvertisement();
     }
@@ -44,7 +53,7 @@ public class AdvertisementController {
 
 
   @GetMapping("/{id}")
-  public Advertisement getAdvertisementById(@PathVariable String id) {
+  public AdvertisementOutput getAdvertisementById(@PathVariable String id) {
     return advertisementService.getAdvertisementById(id);
   }
 

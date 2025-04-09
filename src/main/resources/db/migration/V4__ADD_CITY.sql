@@ -1,0 +1,12 @@
+CREATE TABLE city
+(
+    id   VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    CONSTRAINT pk_city PRIMARY KEY (id)
+);
+
+ALTER TABLE advertisement
+    ADD COLUMN city_id VARCHAR(255);
+
+ALTER TABLE advertisement
+    ADD CONSTRAINT FK_ADVERTISEMENT_ON_CITY FOREIGN KEY (city_id) REFERENCES city (id);

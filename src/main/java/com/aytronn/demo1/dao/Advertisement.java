@@ -38,4 +38,8 @@ public class Advertisement {
 
   @OneToMany(mappedBy = "advertisementId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private Set<AdvertisementImage> images;
+
+  @ManyToOne
+  @JoinColumn(name = "city_id")
+  private City city;
 }
