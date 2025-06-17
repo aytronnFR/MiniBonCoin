@@ -3,7 +3,7 @@
     <option name="SCHEDULED_DEBUGGER" value="true" />
     <module name="demo1.main" />
     <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.aytronn.demo1.Demo1Application" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.aytronn.demo1.MiniBonCoinApplication" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="true" />
       <option name="IS_SUBST" value="false" />

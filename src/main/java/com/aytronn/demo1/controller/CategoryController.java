@@ -33,12 +33,12 @@ public class CategoryController {
   }
 
   @PostMapping
-  public Category createCategory(@RequestBody CategoryCreateInput input) {
-    return categoryService.createCategory(input);
+  public Category createCategory(@RequestBody CategoryCreateInput input, String identifier) {
+    return categoryService.createCategory(input, identifier);
   }
 
   @PutMapping("/{id}")
-  public Category updateCategory(@PathVariable String id, @RequestBody CategoryCreateInput input) {
-    return categoryService.updateCategory(id, input);
+  public Category updateCategory(@PathVariable String id, @RequestBody CategoryCreateInput input, String identifier) {
+    return categoryService.updateCategory(id, input, identifier);
   }
 }

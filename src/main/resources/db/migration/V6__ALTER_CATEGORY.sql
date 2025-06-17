@@ -1,0 +1,2 @@
+ALTER TABLE category ADD IF NOT EXISTS created_by VARCHAR(255);
+ALTER TABLE category ADD IF NOT EXISTS updated_by VARCHAR(255);

@@ -22,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 public class AdvertisementService {
@@ -32,17 +31,15 @@ public class AdvertisementService {
   private final AdvertisementImageRepository advertisementImageRepository;
   private final CityRepository cityRepository;
   private final AdvertisementMapper advertisementMapper;
-  private final WebClient webClient;
 
   public AdvertisementService(AdvertisementRepository advertisementRepository, CategoryRepository categoryRepository,
       AdvertisementImageRepository advertisementImageRepository, CityRepository cityRepository,
-      AdvertisementMapper advertisementMapper, WebClient webClient) {
+      AdvertisementMapper advertisementMapper) {
     this.advertisementRepository = advertisementRepository;
     this.categoryRepository = categoryRepository;
     this.advertisementImageRepository = advertisementImageRepository;
     this.cityRepository = cityRepository;
     this.advertisementMapper = advertisementMapper;
-    this.webClient = webClient;
   }
 
   public Advertisement createAdvertisement(AdvertisementInput input) {
@@ -75,19 +72,7 @@ public class AdvertisementService {
     return optionalCity.get();
   }
 
-  /*
-  private City getCity(String cityName) {
-    return webClient
-        .get()
-        .uri("https://api.example.com/cities/{name}", cityName)
-        .retrieve()
-        .bodyToMono(City.class)
-        .doOnError(e -> {
-          throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch city data");
-        }).block();
-  }
 
-   */
 
 
   public Page<Advertisement> getAllAdvertisement(Pageable pageable, Predicate predicate) {

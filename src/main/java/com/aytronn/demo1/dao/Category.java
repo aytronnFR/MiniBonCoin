@@ -24,4 +24,7 @@ public class Category {
   private String id;
 
   private String name;
+
+  private String createdBy;
+  private String updatedBy;
 }
