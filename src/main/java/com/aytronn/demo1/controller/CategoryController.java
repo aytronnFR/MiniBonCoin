@@ -2,6 +2,7 @@ package com.aytronn.demo1.controller;
 
 import com.aytronn.demo1.dao.Category;
 import com.aytronn.demo1.dto.CategoryCreateInput;
+import com.aytronn.demo1.dto.CategoryDto;
 import com.aytronn.demo1.service.CategoryService;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +24,12 @@ public class CategoryController {
   }
 
   @GetMapping
-  public List<Category> getAllCategories() {
+  public List<CategoryDto> getAllCategories() {
     return categoryService.getAllCategories();
   }
 
   @GetMapping("/{id}")
-  public Category getCategoryById(@PathVariable String id) {
+  public CategoryDto getCategoryById(@PathVariable String id) {
     return categoryService.getCategoryById(id);
   }
 

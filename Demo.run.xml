@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Demo" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="MiniBonCoin" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="SCHEDULED_DEBUGGER" value="true" />
-    <module name="demo1.main" />
+    <module name="MiniBonCoin.main" />
     <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.aytronn.demo1.MiniBonCoinApplication" />
     <extension name="net.ashald.envfile">
