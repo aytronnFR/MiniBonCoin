@@ -27,12 +27,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql:42.6.0")
     annotationProcessor("org.projectlombok:lombok")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 
 
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")

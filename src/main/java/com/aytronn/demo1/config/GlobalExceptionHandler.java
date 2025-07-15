@@ -19,15 +19,4 @@ public class GlobalExceptionHandler {
             "timestamp", System.currentTimeMillis()
         ));
   }
-
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<?> handleException(Exception e) {
-    return ResponseEntity
-        .status(500)
-        .body(Map.of(
-            "status", 500,
-            "message", e.getMessage(),
-            "timestamp", System.currentTimeMillis()
-        ));
-  }
 }

@@ -10,6 +10,7 @@ import java.time.Instant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class AdvertisementController {
   }
 
   @GetMapping
+  @PreAuthorize("hasAuthority('admin:read')")
   public Page<Advertisement> getAllAdvertisements(
       @RequestParam(required = false) String categoryId,
       @RequestParam(required = false) String cityName,
@@ -73,27 +75,31 @@ public class AdvertisementController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('admin:create')")
   public Advertisement createAdvertisement(@RequestBody AdvertisementInput input) {
     return advertisementService.createAdvertisement(input);
   }
 
-
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('admin:read')")
   public AdvertisementOutput getAdvertisementById(@PathVariable String id) {
     return advertisementService.getAdvertisementById(id);
   }
 
+  @PreAuthorize("hasAuthority('admin:update')")
   @PutMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public Advertisement addPhotoToAdvertisement(@PathVariable String id, @RequestParam MultipartFile image) {
     return advertisementService.addPhotoToAdvertisement(id, image);
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('admin:update')")
   public Advertisement updateAdvertisement(@PathVariable String id, @RequestBody AdvertisementInput input) {
     return advertisementService.updateAdvertisement(id, input);
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('admin:delete')")
   public void deleteAdvertisement(@PathVariable String id) {
     advertisementService.deleteAdvertisement(id);
   }
