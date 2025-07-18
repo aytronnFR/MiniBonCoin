@@ -1,6 +1,11 @@
 server:
   port: 8080
 
+security:
+  secret-key: 223c4fdf6d21013fdc0f1081cde4121c9cc942eea5475c81f50e9de9cff724db
+  token-expiration: 3600000 # 1 hour
+  refresh-token-expiration: 604800000 # 7 days
+
 spring:
   application:
     name: "demo"
@@ -12,8 +17,34 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+springdoc:
+  show-actuator: false
+  writer-with-default-pretty-printer: true
+  pre-loading-enabled: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+  swagger-ui:
+    filter: true
+    display-request-duration: true
+    show-common-extensions: true
+    show-extensions: true
+
+error:
+  handling:
+    exception-logging: with_stacktrace
+    http-status-in-json-response: true
+
+logging:
+  level:
+    org.springframework.context.support.PostProcessorRegistrationDelegate: OFF
+  pattern:
+    console: "${LOG_PATTERN:%boldMagenta([%thread]) %cyan(%date) %highlight(%-5level) %green([%logger{36}:%line]) : %msg%n}"
+  charset:
+    console: UTF-8

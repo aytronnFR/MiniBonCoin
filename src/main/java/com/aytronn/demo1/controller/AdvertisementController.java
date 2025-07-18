@@ -39,8 +39,8 @@ public class AdvertisementController {
       @RequestParam(required = false) String categoryId,
       @RequestParam(required = false) String cityName,
       @RequestParam(required = false) String titleContain,
-      @RequestParam(required = false) double minPrice,
-      @RequestParam(required = false) double maxPrice,
+      @RequestParam(required = false) Double minPrice,
+      @RequestParam(required = false) Double maxPrice,
       @RequestParam(required = false) Instant minCreatedAt,
       @RequestParam(required = false) Instant maxCreatedAt,
       Pageable pageable
@@ -57,10 +57,10 @@ public class AdvertisementController {
     if (titleContain != null) {
       predicate = predicate.and(qAdvertisement.title.containsIgnoreCase(titleContain));
     }
-    if (minPrice > 0) {
+    if (minPrice != null && minPrice > 0) {
       predicate = predicate.and(qAdvertisement.price.goe(minPrice));
     }
-    if (maxPrice > 0) {
+    if (maxPrice != null && maxPrice > 0) {
       predicate = predicate.and(qAdvertisement.price.loe(maxPrice));
     }
     if (minCreatedAt != null) {

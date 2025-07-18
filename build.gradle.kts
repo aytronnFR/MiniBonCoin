@@ -36,11 +36,11 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 
+    implementation("io.jsonwebtoken:jjwt:0.12.6")
+
 
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
     annotationProcessor("com.querydsl:querydsl-apt:5.1.0:jakarta")
@@ -48,7 +48,19 @@ dependencies {
     annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
-    testImplementation("com.h2database:h2")
+    //TEST
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+
+    // Mockito Core
+    testImplementation("org.mockito:mockito-core:5.12.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
+
+    // AssertJ (pour un meilleur assertThat)
+    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("com.ekino.oss.jcv:jcv-assertj:1.5.0")
 }
 
 tasks.withType<Test> {
